@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 
-const SearchForm = ({ loadCompanies }) => {
-  const initial_state = {
-    searchTerm: '',
-  };
-
-  const [formData, setFormData] = useState(initial_state);
+const SearchForm = ({ load }) => {
+  
+  const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,8 +15,7 @@ const SearchForm = ({ loadCompanies }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // call api filter method
-    loadCompanies(formData.searchTerm);
+    load(formData.searchTerm);
   };
 
   return (

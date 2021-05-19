@@ -46,6 +46,18 @@ class JoblyApi {
     }
   }
 
+  /** `Get all jobs / get filtered jobs 
+   TODO: add minSalary, hasEquity and title to search params */
+  static async getJobs(title) {
+    if (title) {
+      let res = await this.request('jobs', { title });
+      return res.jobs;
+    } else {
+      let res = await this.request('jobs');
+      return res.jobs;
+    }
+  }
+
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {

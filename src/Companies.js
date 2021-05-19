@@ -22,12 +22,10 @@ const Companies = () => {
 
   return (
     <div>
-      <SearchForm loadCompanies={loadCompanies} />
+      <SearchForm load={loadCompanies} />
       <h1>Companies</h1>
       {compsToRender.length ? (
-        <div>
-          {compsToRender.map((c) => c)}
-        </div>
+        <div>{compsToRender.map((c) => c)}</div>
       ) : (
         <p>Nothing found</p>
       )}
