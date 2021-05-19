@@ -2,12 +2,13 @@
 import './App.css';
 import Nav from './Nav'
 import Routes from './Routes'
+import User from './User'
 
 function App() {
   return (
     <div className="App">
-      <Nav />
-      <Routes />
+      <User />
+      {/* <Routes /> */}
     </div>
   );
 }

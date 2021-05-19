@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Nav.css'
+import './Nav.css';
 
-const Nav = () => {
+const Nav = ({ user, logout }) => {
   return (
     <nav className="Nav">
       <NavLink exact to="/Companies">
@@ -14,9 +14,20 @@ const Nav = () => {
       <NavLink exact to="/Profile">
         Profile
       </NavLink>
-      <NavLink exact to="/logout">
-        Log out
-      </NavLink>
+      {user ? (
+        <NavLink exact to="/" onClick={logout}>
+          logout <span>{user.username}</span>
+        </NavLink>
+      ) : (
+        <div>
+        <NavLink exact to="/login">
+          Login
+        </NavLink>
+        <NavLink exact to="/signup">
+          Sign Up
+        </NavLink>
+        </div>
+      )}
     </nav>
   );
 };
