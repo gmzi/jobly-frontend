@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Nav.css';
+import { UserContext } from './UserContext';
 
-const Nav = ({ user, logout }) => {
+const Nav = ({ logout }) => {
+  const usr = useContext(UserContext);
+
   return (
     <nav className="Nav">
       <NavLink exact to="/Companies">
@@ -14,18 +17,18 @@ const Nav = ({ user, logout }) => {
       <NavLink exact to="/Profile">
         Profile
       </NavLink>
-      {user ? (
+      {usr ? (
         <NavLink exact to="/" onClick={logout}>
-          logout <span>{user.username}</span>
+          logout <span>{usr[1]}</span>
         </NavLink>
       ) : (
         <div>
-        <NavLink exact to="/login">
-          Login
-        </NavLink>
-        <NavLink exact to="/signup">
-          Sign Up
-        </NavLink>
+          <NavLink exact to="/login">
+            Login
+          </NavLink>
+          <NavLink exact to="/signup">
+            Sign Up
+          </NavLink>
         </div>
       )}
     </nav>

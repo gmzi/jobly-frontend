@@ -12,11 +12,11 @@ import Profile from './Profile';
 import NotFound from './NotFound';
 import User from './User';
 
-const Routes = ({ signUp, login, user }) => {
+const Routes = ({ signUp, login }) => {
   return (
     <Switch>
       <Route exact path="/">
-        <Home user={user} />
+        <Home />
       </Route>
       <Route exact path="/companies">
         <Companies />
