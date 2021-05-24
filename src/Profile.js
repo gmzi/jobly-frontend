@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from './UserContext';
 
+// TO FIX: app breakes after user update. Find a way to re-render the component with the
+// updatet user data.
+
 const Profile = () => {
   let user = useContext(UserContext);
   const profile = user.user;

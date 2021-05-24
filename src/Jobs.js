@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import JoblyApi from './apiHelper';
 import SearchForm from './SearchForm';
-import Job from './Job'
+import { UserContext } from './UserContext';
+import Job from './Job';
 import './Jobs.css';
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
+  const [applied, setApplied] = useState([]);
+
+  const user = useContext(UserContext);
 
   useEffect(() => {
     loadJobs();
+    checkUser();
   }, []);
+
+  function checkUser() {
+    if (user) {
+      console.log('si');
+    } else {
+      console.log('no');
+    }
+  }
 
   async function loadJobs(title) {
     const retrieved = await JoblyApi.getJobs(title);

@@ -92,7 +92,7 @@ class JoblyApi {
     }
   }
 
-  /** Get details on a company by handle. */
+  /** Get jobs and details on a company by handle. */
 
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);
@@ -129,6 +129,14 @@ class JoblyApi {
   static async update(username, userData) {
     let res = await this.patch(`users/${username}`, userData);
     return res.user;
+  }
+
+  /** Apply to job */
+  static async dbApply(username, jobId) {
+    console.log(username, jobId);
+    let res = await this.request(`users/${username}/jobs/${jobId}`);
+    // FIND OUT WHY THE FUCK IT RETURNS A NOT FOUND
+    return res;
   }
 
   /** Logout */

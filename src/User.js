@@ -7,16 +7,23 @@ import { UserContext } from './UserContext';
 import { BrowserRouter } from 'react-router-dom';
 
 const User = () => {
+  const [counter, setCounter] = useState(0);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  const userProviderValue = useMemo(() => ({ user, update, setUser }), [user]);
+  //   const userProviderValue = useMemo(
+  //     () => ({ user, update, counter, increment }),
+  //     [user]
+  //   );
+  const userProviderValue = { user, update, apply, counter, increment };
 
   useEffect(
     async function () {
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
+      console.log(currUsr);
       if (currUsr) {
+        // const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
         const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
         setUser((user) => [...currUsr, userData]);
       }
@@ -24,6 +31,9 @@ const User = () => {
     [token]
   );
 
+  function increment() {
+    setCounter((counter) => counter + 1);
+  }
   function updateLocalStorage(obj) {
     window.localStorage.setItem('currUser', JSON.stringify(obj));
   }
@@ -60,15 +70,23 @@ const User = () => {
     setToken((token) => null);
   }
 
+  async function getJobs(handle) {
+    const req = await JoblyApi.getCompany(handle);
+    return req.jobs;
+  }
+
+  async function apply(username, jobId) {
+    const req = await JoblyApi.dbApply(username, jobId);
+    console.log(req);
+  }
+
   return (
     <div>
       <UserContext.Provider value={userProviderValue}>
-        {/* <ProfileContext.Provider value={profileProviderValue}> */}
         <BrowserRouter>
           <Nav logout={logout} />
-          <Routes signUp={signUp} login={login} />
+          <Routes signUp={signUp} login={login} getJobs={getJobs} />
         </BrowserRouter>
-        {/* </ProfileContext.Provider> */}
       </UserContext.Provider>
     </div>
   );

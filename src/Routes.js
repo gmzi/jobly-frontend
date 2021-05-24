@@ -12,7 +12,7 @@ import Profile from './Profile';
 import NotFound from './NotFound';
 import User from './User';
 
-const Routes = ({ signUp, login }) => {
+const Routes = ({ signUp, login, getJobs }) => {
   return (
     <Switch>
       <Route exact path="/">
@@ -22,7 +22,7 @@ const Routes = ({ signUp, login }) => {
         <Companies />
       </Route>
       <Route exact path="/companies/:handle">
-        <CompanyDetails />
+        <CompanyDetails getJobs={getJobs} />
       </Route>
       <Route exact path="/jobs">
         <Jobs />
