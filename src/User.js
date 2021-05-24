@@ -3,21 +3,26 @@ import JoblyApi from './apiHelper';
 import Nav from './Nav';
 import Routes from './Routes';
 import { UserContext } from './UserContext';
+// import { ProfileContext } from './ProfileContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const User = () => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const providerValue = useMemo(() => user, [user]);
+  const userProviderValue = useMemo(() => ({ user, update, setUser }), [user]);
 
   useEffect(
-    function () {
+    async function () {
       const local = window.localStorage.getItem('currUser');
-      setUser((user) => JSON.parse(local));
+      const currUsr = JSON.parse(local);
+      if (currUsr) {
+        const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
+        setUser((user) => [...currUsr, userData]);
+      }
     },
-    [window.localStorage.getItem('currUser')]
+    [token]
   );
-
-  function retrieveUser() {}
 
   function updateLocalStorage(obj) {
     window.localStorage.setItem('currUser', JSON.stringify(obj));
@@ -30,28 +35,40 @@ const User = () => {
   async function signUp(userData) {
     const newToken = await JoblyApi.register(userData);
     const newUser = [[newToken], [userData.username]];
-    setUser((user) => newUser);
-    // setCurrUser((currUser) => newUser);
+    setToken(newToken);
     updateLocalStorage(newUser);
   }
 
   async function login(userData) {
     const newToken = await JoblyApi.login(userData);
     const newUser = [[newToken], [userData.username]];
-    setUser((user) => newUser);
+    setToken(newToken);
     updateLocalStorage(newUser);
+  }
+
+  async function update(form) {
+    delete form.username;
+    const updatedData = await JoblyApi.update(user[1][0], form);
+    setUser((user) => (user[2] = updatedData));
+    // return updatedData;
   }
 
   function logout() {
     cleanLocalStorage();
+    JoblyApi.logout();
     setUser((user) => null);
+    setToken((token) => null);
   }
 
   return (
     <div>
-      <UserContext.Provider value={providerValue}>
-        <Nav logout={logout} />
-        <Routes signUp={signUp} login={login} />
+      <UserContext.Provider value={userProviderValue}>
+        {/* <ProfileContext.Provider value={profileProviderValue}> */}
+        <BrowserRouter>
+          <Nav logout={logout} />
+          <Routes signUp={signUp} login={login} />
+        </BrowserRouter>
+        {/* </ProfileContext.Provider> */}
       </UserContext.Provider>
     </div>
   );

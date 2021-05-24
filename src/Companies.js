@@ -9,7 +9,7 @@ const Companies = () => {
 
   useEffect(() => {
     loadCompanies();
-  }, []);
+  }, [setComps]);
 
   async function loadCompanies(name) {
     const companies = await JoblyApi.getCompanies(name);

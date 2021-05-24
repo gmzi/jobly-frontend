@@ -4,7 +4,8 @@ import './Nav.css';
 import { UserContext } from './UserContext';
 
 const Nav = ({ logout }) => {
-  const usr = useContext(UserContext);
+  const user = useContext(UserContext);
+  const usr = user.user;
 
   return (
     <nav className="Nav">
@@ -14,13 +15,15 @@ const Nav = ({ logout }) => {
       <NavLink exact to="/Jobs">
         Jobs
       </NavLink>
-      <NavLink exact to="/Profile">
-        Profile
-      </NavLink>
       {usr ? (
-        <NavLink exact to="/" onClick={logout}>
-          logout <span>{usr[1]}</span>
-        </NavLink>
+        <>
+          <NavLink exact to="/Profile">
+            Profile
+          </NavLink>
+          <NavLink exact to="/" onClick={logout}>
+            logout <span>{usr[1]}</span>
+          </NavLink>
+        </>
       ) : (
         <div>
           <NavLink exact to="/login">
