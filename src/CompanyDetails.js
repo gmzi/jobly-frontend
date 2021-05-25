@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import Job from './Job';
 import JoblyApi from './apiHelper';
 
-// TODO: fix the twice-rendering situation, once is null, the second has data
+// TODO: fix the multi-rendering situation, and correct buttons update
 
 const CompanyDetails = ({ getJobs }) => {
   const { handle } = useParams();
@@ -24,7 +24,6 @@ const CompanyDetails = ({ getJobs }) => {
 
   async function getJobs(handle) {
     const req = await JoblyApi.getCompany(handle);
-    console.log(req.jobs);
     setJobs((jobs) => req.jobs);
   }
 
@@ -51,7 +50,7 @@ const CompanyDetails = ({ getJobs }) => {
   return (
     <div>
       <h1>Jobs at {handle} </h1>
-      {user.user ? (
+      {user.user && jobsToRender.length ? (
         jobsToRender.map((j) => j)
       ) : (
         <h1>No jobs at this company</h1>

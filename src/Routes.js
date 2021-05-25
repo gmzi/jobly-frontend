@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Welcome from './Welcome';
 import Home from './Home';
@@ -10,9 +10,11 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignUpForm';
 import Profile from './Profile';
 import NotFound from './NotFound';
+import { UserContext } from './UserContext';
 import User from './User';
 
 const Routes = ({ signUp, login }) => {
+  // Implement JobApplications Context here so Jobs.js and CompDetails.js can access it and mofify it
   return (
     <Switch>
       <Route exact path="/">
