@@ -51,6 +51,7 @@ const User = () => {
 
   async function login(userData) {
     const newToken = await JoblyApi.login(userData);
+    console.log(newToken);
     const newUser = [[newToken], [userData.username]];
     setToken(newToken);
     updateLocalStorage(newUser);
@@ -70,22 +71,21 @@ const User = () => {
     setToken((token) => null);
   }
 
-  async function getJobs(handle) {
-    const req = await JoblyApi.getCompany(handle);
-    return req.jobs;
-  }
-
+  
   async function apply(username, jobId) {
     const req = await JoblyApi.dbApply(username, jobId);
     console.log(req);
+    setUser((user) => user);
   }
+
+
 
   return (
     <div>
       <UserContext.Provider value={userProviderValue}>
         <BrowserRouter>
           <Nav logout={logout} />
-          <Routes signUp={signUp} login={login} getJobs={getJobs} />
+          <Routes signUp={signUp} login={login} />
         </BrowserRouter>
       </UserContext.Provider>
     </div>

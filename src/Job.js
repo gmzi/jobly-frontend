@@ -3,7 +3,14 @@ import { UserContext } from './UserContext';
 
 import './Job.css';
 
-const Job = ({ job }) => {
+const Job = ({ id, job, applied, apply }) => {
+  
+  const [prevApp, setPrevApp] = useState(applied);
+
+  function handleApply(e) {
+    apply(e);
+    e.target.disabled = true;
+  }
 
   return (
     <div className="Job">
@@ -14,7 +21,9 @@ const Job = ({ job }) => {
         <h4>Equity: {job.equity}</h4>
       </div>
       <div>
-        <button>Apply</button>
+        <button id={id} onClick={handleApply} disabled={applied}>
+          {applied ? 'Applied' : 'Apply'}
+        </button>
       </div>
     </div>
   );

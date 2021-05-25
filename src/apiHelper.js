@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Job from './Job';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 
@@ -36,11 +37,11 @@ class JoblyApi {
     console.debug('API Call:', endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
-    // const headers = { Authorization: `Bearer ${JoblyApi.token}` };
+    const headers = { Authorization: `Bearer ${JoblyApi.token}` };
     const params = method === 'post' ? data : {};
 
     try {
-      return (await axios({ url, method, data, params })).data;
+      return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error('API Error:', err.response);
       let message = err.response.data.error.message;
@@ -103,7 +104,7 @@ class JoblyApi {
   static async register(userData) {
     let res = await this.post('auth/register', userData);
     // JoblyApi.token = res.token;
-    // this.updateToken(res.token);
+    this.updateToken(res.token);
     return res.token;
   }
 
@@ -111,7 +112,7 @@ class JoblyApi {
   static async login(userData) {
     let res = await this.post('auth/token', userData);
     // JoblyApi.token = res.token;
-    // this.updateToken(res.token);
+    this.updateToken(res.token);
     return res.token;
   }
 
@@ -133,14 +134,12 @@ class JoblyApi {
 
   /** Apply to job */
   static async dbApply(username, jobId) {
-    console.log(username, jobId);
-    let res = await this.request(`users/${username}/jobs/${jobId}`);
-    // FIND OUT WHY THE FUCK IT RETURNS A NOT FOUND
+    let res = await this.post(`users/${username}/jobs/${jobId}`);
     return res;
   }
 
   /** Logout */
-  static async logout() {
+  static logout() {
     JoblyApi.token = '';
   }
 }
