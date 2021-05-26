@@ -8,6 +8,8 @@ const LoginForm = ({ login }) => {
   };
 
   const [formData, setFormData] = useState(initialState);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   const history = useHistory();
 
   const handleChange = (e) => {
@@ -19,13 +21,16 @@ const LoginForm = ({ login }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // const { username, password, firstName, lastName, email } = formData;
-    login(formData);
-    setFormData(initialState);
-    history.push('/companies');
-  };
+    const logged = await login(formData);
+    if (logged.success) {
+      setFormData(initialState);
+      history.push('/companies');
+    } else {
+      setErrorMsg(logged.error);
+    }
+  }
 
   return (
     <div>
@@ -51,9 +56,12 @@ const LoginForm = ({ login }) => {
         />
         <button>Login</button>
       </form>
-      <p>
-        Not a member? <a href="/signup">Sign Up</a>
-      </p>
+      <div>{errorMsg ? <p>{errorMsg}</p> : <p></p>}</div>
+      <div>
+        <p>
+          Not a member? <a href="/signup">Sign Up</a>
+        </p>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import JoblyApi from './apiHelper';
 import Nav from './Nav';
 import Routes from './Routes';
@@ -6,7 +6,6 @@ import { UserContext } from './UserContext';
 import { BrowserRouter } from 'react-router-dom';
 
 const User = () => {
-  const [counter, setCounter] = useState(0);
   const [user, setUser] = useState();
   const [token, setToken] = useState(null);
   const [prevApps, setPrevApps] = useState();
@@ -18,57 +17,71 @@ const User = () => {
     applyFront,
     prevApps,
     setPrevApps,
-    counter,
-    increment,
   };
 
   useEffect(
     async function () {
+      console.log(token);
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
       if (currUsr) {
-        const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
-        setPrevApps((prevApps) => userData.applications);
-        setUser((user) => [...currUsr, userData]);
+        try {
+          const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
+          setPrevApps((prevApps) => userData.applications);
+          setUser((user) => [...currUsr, userData]);
+        } catch (e) {
+          console.log('Loading problem', e);
+          setUser((user) => null);
+        }
       }
     },
     [token]
   );
 
-  function increment() {
-    setCounter((counter) => counter + 1);
-  }
   function updateLocalStorage(obj) {
     window.localStorage.setItem('currUser', JSON.stringify(obj));
   }
 
-  function cleanLocalStorage() {
-    window.localStorage.removeItem('currUser');
-  }
-
   async function signUp(userData) {
-    const newToken = await JoblyApi.register(userData);
-    const newUser = [[newToken], [userData.username]];
-    setToken(newToken);
-    updateLocalStorage(newUser);
+    try {
+      const newToken = await JoblyApi.register(userData);
+      const newUser = [[newToken], [userData.username]];
+      setToken(newToken);
+      updateLocalStorage(newUser);
+      return { success: true };
+    } catch (e) {
+      console.log(e);
+      return { success: false, error: e };
+    }
   }
 
   async function login(userData) {
-    const newToken = await JoblyApi.login(userData);
-    console.log(newToken);
-    const newUser = [[newToken], [userData.username]];
-    setToken(newToken);
-    updateLocalStorage(newUser);
+    try {
+      const newToken = await JoblyApi.login(userData);
+      const newUser = [[newToken], [userData.username]];
+      setToken(newToken);
+      updateLocalStorage(newUser);
+      return { success: true };
+    } catch (e) {
+      console.log('login failed', e);
+      return { success: false, error: e };
+    }
   }
 
   async function update(form) {
-    delete form.username;
-    const updatedData = await JoblyApi.update(user[1][0], form);
-    setUser((user) => (user[2] = updatedData));
+    try {
+      delete form.username;
+      const updatedData = await JoblyApi.update(user[1][0], form);
+      setUser((user) => (user[2] = updatedData));
+      return { success: true };
+    } catch (e) {
+      console.log('update failed', e);
+      return { success: false, error: e };
+    }
   }
 
   function logout() {
-    cleanLocalStorage();
+    window.localStorage.removeItem('currUser');
     JoblyApi.logout();
     setUser((user) => null);
     setToken((token) => null);
@@ -76,15 +89,25 @@ const User = () => {
   }
 
   async function applyFront(jobId, username) {
-    const result = await applyBack(username, jobId);
-    console.log(result.applied);
-    setPrevApps((prevApps) => [...prevApps, result.applied]);
+    try {
+      const result = await applyBack(username, jobId);
+      setPrevApps((prevApps) => [...prevApps, result.applied]);
+      return { success: true };
+    } catch (e) {
+      console.log('application failed', e);
+      return { success: false, error: e };
+    }
   }
 
   async function applyBack(username, jobId) {
-    const req = await JoblyApi.dbApply(username, jobId);
-    setUser((user) => user);
-    return req;
+    try {
+      const req = await JoblyApi.dbApply(username, jobId);
+      setUser((user) => user);
+      return req;
+    } catch (e) {
+      console.log('application failed on db', e);
+      return { success: false, error: e };
+    }
   }
 
   return (

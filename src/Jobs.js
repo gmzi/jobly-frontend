@@ -23,6 +23,7 @@ const Jobs = () => {
     const jobId = e.target.id;
     const username = user.user[2].username;
     user.applyFront(jobId, username);
+    return;
   }
 
   let jobsToRender = [];
