@@ -6,7 +6,7 @@ import JoblyApi from './apiHelper';
 
 // TODO: fix the multi-rendering situation, and correct buttons update
 
-const CompanyDetails = () => {
+const CompanyJobs = () => {
   const { handle } = useParams();
 
   const user = useContext(UserContext);
@@ -24,42 +24,72 @@ const CompanyDetails = () => {
     setJobs((jobs) => req.jobs);
   }
 
-  // async function apply(e) {
-  //   const jobId = e.target.id;
-  //   const username = user.user[2].username;
-  //   const saveApplication = await user.apply(username, jobId);
-  // }
-
   function handleApplication(e) {
     const jobId = e.target.id;
     const username = user.user[2].username;
     user.applyFront(jobId, username);
   }
 
-  const jobsToRender = jobs.map((j) =>
-    user.prevApps.includes(j.id) ? (
+  // const jobsToRender = jobs.map((j) =>
+  //   user.prevApps.includes(j.id) ? (
+  //     <Job
+  //       key={j.id}
+  //       id={j.id}
+  //       job={j}
+  //       applied={true}
+  //       apply={handleApplication}
+  //     />
+  //   ) : (
+  //     <Job
+  //       key={j.id}
+  //       id={j.id}
+  //       job={j}
+  //       applied={false}
+  //       apply={handleApplication}
+  //     />
+  //   )
+  // );
+  let jobsToRender = [];
+
+  if (user.user) {
+    jobsToRender = jobs.map((j) =>
+      user.prevApps.includes(j.id) ? (
+        <Job
+          key={j.id}
+          id={j.id}
+          job={j}
+          applied={true}
+          apply={handleApplication}
+          hasBtn={true}
+        />
+      ) : (
+        <Job
+          key={j.id}
+          id={j.id}
+          job={j}
+          applied={false}
+          apply={handleApplication}
+          hasBtn={true}
+        />
+      )
+    );
+  } else {
+    jobsToRender = jobs.map((j) => (
       <Job
         key={j.id}
         id={j.id}
         job={j}
         applied={true}
         apply={handleApplication}
+        hasBtn={false}
       />
-    ) : (
-      <Job
-        key={j.id}
-        id={j.id}
-        job={j}
-        applied={false}
-        apply={handleApplication}
-      />
-    )
-  );
+    ));
+  }
 
   return (
     <div>
       <h1>Jobs at {handle} </h1>
-      {user.user && jobsToRender.length ? (
+      {jobsToRender.length ? (
         jobsToRender.map((j) => j)
       ) : (
         <h1>No jobs at this company</h1>
@@ -68,4 +98,4 @@ const CompanyDetails = () => {
   );
 };
 
-export default CompanyDetails;
+export default CompanyJobs;

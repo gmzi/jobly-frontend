@@ -25,25 +25,61 @@ const Jobs = () => {
     user.applyFront(jobId, username);
   }
 
-  const jobsToRender = jobs.map((j) =>
-    user.prevApps.includes(j.id) ? (
+  // const jobsToRender = jobs.map((j) =>
+  //   user.prevApps.includes(j.id) ? (
+  //     <Job
+  //       key={j.id}
+  //       id={j.id}
+  //       job={j}
+  //       applied={true}
+  //       apply={handleApplication}
+  //     />
+  //   ) : (
+  //     <Job
+  //       key={j.id}
+  //       id={j.id}
+  //       job={j}
+  //       applied={false}
+  //       apply={handleApplication}
+  //     />
+  //   )
+  // );
+  let jobsToRender = [];
+
+  if (user.user) {
+    jobsToRender = jobs.map((j) =>
+      user.prevApps.includes(j.id) ? (
+        <Job
+          key={j.id}
+          id={j.id}
+          job={j}
+          applied={true}
+          apply={handleApplication}
+          hasBtn={true}
+        />
+      ) : (
+        <Job
+          key={j.id}
+          id={j.id}
+          job={j}
+          applied={false}
+          apply={handleApplication}
+          hasBtn={true}
+        />
+      )
+    );
+  } else {
+    jobsToRender = jobs.map((j) => (
       <Job
         key={j.id}
         id={j.id}
         job={j}
         applied={true}
         apply={handleApplication}
+        hasBtn={false}
       />
-    ) : (
-      <Job
-        key={j.id}
-        id={j.id}
-        job={j}
-        applied={false}
-        apply={handleApplication}
-      />
-    )
-  );
+    ));
+  }
 
   return (
     <div>

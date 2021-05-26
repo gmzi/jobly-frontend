@@ -3,7 +3,6 @@ import JoblyApi from './apiHelper';
 import Nav from './Nav';
 import Routes from './Routes';
 import { UserContext } from './UserContext';
-// import { ProfileContext } from './ProfileContext';
 import { BrowserRouter } from 'react-router-dom';
 
 const User = () => {
@@ -12,10 +11,6 @@ const User = () => {
   const [token, setToken] = useState(null);
   const [prevApps, setPrevApps] = useState();
 
-  //   const userProviderValue = useMemo(
-  //     () => ({ user, update, counter, increment }),
-  //     [user]
-  //   );
   const userProviderValue = {
     user,
     update,
@@ -31,9 +26,7 @@ const User = () => {
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
       if (currUsr) {
-        // const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
         const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
-        console.log(userData.applications);
         setPrevApps((prevApps) => userData.applications);
         setUser((user) => [...currUsr, userData]);
       }
@@ -79,6 +72,7 @@ const User = () => {
     JoblyApi.logout();
     setUser((user) => null);
     setToken((token) => null);
+    setPrevApps((prevApps) => null);
   }
 
   async function applyFront(jobId, username) {

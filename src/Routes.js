@@ -4,7 +4,7 @@ import Welcome from './Welcome';
 import Home from './Home';
 import Companies from './Companies';
 import Company from './Company';
-import CompanyDetails from './CompanyDetails';
+import CompanyJobs from './CompanyJobs';
 import Jobs from './Jobs';
 import LoginForm from './LoginForm';
 import SignupForm from './SignUpForm';
@@ -24,7 +24,7 @@ const Routes = ({ signUp, login }) => {
         <Companies />
       </Route>
       <Route exact path="/companies/:handle">
-        <CompanyDetails />
+        <CompanyJobs />
       </Route>
       <Route exact path="/jobs">
         <Jobs />
