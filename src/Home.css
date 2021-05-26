@@ -1,0 +1,26 @@
+.Home {
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+}
+
+.Home-brand {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(221, 213, 213);
+}
+
+.Home h2 {
+  padding-top: 1rem;
+}
+
+.Home-username {
+  border-bottom: 1px solid rgb(23, 22, 22);
+}
+
+.Home-btnContainer {
+  border-top: 1px solid rgb(221, 213, 213);
+}
+
+.Home-btnContainer .btn {
+  margin: 1rem 1rem;
+}

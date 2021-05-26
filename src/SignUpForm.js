@@ -88,6 +88,11 @@ const SignUpForm = ({ signUp }) => {
         />
         <button>Sign Up</button>
       </form>
+      <div>
+        <p>
+          Already a member? <a href="/login">login</a>
+        </p>
+      </div>
       <div>{errorMsg ? <p>{errorMsg}</p> : <p></p>}</div>
     </div>
   );

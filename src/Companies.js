@@ -24,14 +24,15 @@ const Companies = () => {
   ));
 
   return (
-    <div>
-      <SearchForm load={loadCompanies} />
-      <h1>Companies</h1>
-      {compsToRender.length ? (
-        <div>{compsToRender.map((c) => c)}</div>
-      ) : (
-        <p>Nothing found</p>
-      )}
+    <div className="Companies col-md-8 offset-md-2">
+        <SearchForm load={loadCompanies} />
+      <div className="Companies-cardsContainer">
+        {compsToRender.length ? (
+          <div>{compsToRender.map((c) => c)}</div>
+        ) : (
+          <p>Nothing found</p>
+        )}
+      </div>
     </div>
   );
 };

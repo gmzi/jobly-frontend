@@ -8,7 +8,7 @@ const Nav = ({ logout }) => {
   const usr = user.user;
 
   return (
-    <nav className="Navigation navbar navbar-expand-md">
+    <nav className="Nav navbar navbar-expand-md">
       <a className="navbar-brand" href="/">
         Jobly
       </a>
