@@ -6,7 +6,7 @@ import JoblyApi from './apiHelper';
 
 // TODO: fix the multi-rendering situation, and correct buttons update
 
-const CompanyDetails = ({ getJobs }) => {
+const CompanyDetails = () => {
   const { handle } = useParams();
 
   const user = useContext(UserContext);
@@ -15,11 +15,8 @@ const CompanyDetails = ({ getJobs }) => {
 
   const [jobs, setJobs] = useState([]);
 
-  const [prevApps, setPrevApps] = useState();
-
   useEffect(() => {
     getJobs(handle);
-    previousApplications();
   }, [user]);
 
   async function getJobs(handle) {
@@ -27,23 +24,35 @@ const CompanyDetails = ({ getJobs }) => {
     setJobs((jobs) => req.jobs);
   }
 
-  function previousApplications() {
-    if (user.user) {
-      setPrevApps((prevApps) => user.user[2].applications);
-    }
-  }
+  // async function apply(e) {
+  //   const jobId = e.target.id;
+  //   const username = user.user[2].username;
+  //   const saveApplication = await user.apply(username, jobId);
+  // }
 
-  async function apply(e) {
+  function handleApplication(e) {
     const jobId = e.target.id;
     const username = user.user[2].username;
-    const saveApplication = await user.apply(username, jobId);
+    user.applyFront(jobId, username);
   }
 
   const jobsToRender = jobs.map((j) =>
-    prevApps.includes(j.id) ? (
-      <Job key={j.id} id={j.id} job={j} applied={true} apply={apply} />
+    user.prevApps.includes(j.id) ? (
+      <Job
+        key={j.id}
+        id={j.id}
+        job={j}
+        applied={true}
+        apply={handleApplication}
+      />
     ) : (
-      <Job key={j.id} id={j.id} job={j} applied={false} apply={apply} />
+      <Job
+        key={j.id}
+        id={j.id}
+        job={j}
+        applied={false}
+        apply={handleApplication}
+      />
     )
   );
 

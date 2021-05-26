@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import JoblyApi from './apiHelper';
 import Nav from './Nav';
 import Routes from './Routes';
@@ -8,23 +8,33 @@ import { BrowserRouter } from 'react-router-dom';
 
 const User = () => {
   const [counter, setCounter] = useState(0);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [token, setToken] = useState(null);
+  const [prevApps, setPrevApps] = useState();
 
   //   const userProviderValue = useMemo(
   //     () => ({ user, update, counter, increment }),
   //     [user]
   //   );
-  const userProviderValue = { user, update, apply, counter, increment };
+  const userProviderValue = {
+    user,
+    update,
+    applyFront,
+    prevApps,
+    setPrevApps,
+    counter,
+    increment,
+  };
 
   useEffect(
     async function () {
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
-      console.log(currUsr);
       if (currUsr) {
         // const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
         const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
+        console.log(userData.applications);
+        setPrevApps((prevApps) => userData.applications);
         setUser((user) => [...currUsr, userData]);
       }
     },
@@ -71,14 +81,17 @@ const User = () => {
     setToken((token) => null);
   }
 
-  
-  async function apply(username, jobId) {
-    const req = await JoblyApi.dbApply(username, jobId);
-    console.log(req);
-    setUser((user) => user);
+  async function applyFront(jobId, username) {
+    const result = await applyBack(username, jobId);
+    console.log(result.applied);
+    setPrevApps((prevApps) => [...prevApps, result.applied]);
   }
 
-
+  async function applyBack(username, jobId) {
+    const req = await JoblyApi.dbApply(username, jobId);
+    setUser((user) => user);
+    return req;
+  }
 
   return (
     <div>

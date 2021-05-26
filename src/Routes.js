@@ -11,10 +11,10 @@ import SignupForm from './SignUpForm';
 import Profile from './Profile';
 import NotFound from './NotFound';
 import { UserContext } from './UserContext';
+import { ApplicationsContext } from './ApplicationsContext';
 import User from './User';
 
 const Routes = ({ signUp, login }) => {
-  // Implement JobApplications Context here so Jobs.js and CompDetails.js can access it and mofify it
   return (
     <Switch>
       <Route exact path="/">
