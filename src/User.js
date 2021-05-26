@@ -22,13 +22,15 @@ const User = () => {
   useEffect(
     async function () {
       console.log(token);
+
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
       if (currUsr) {
         try {
           const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
           setPrevApps((prevApps) => userData.applications);
-          setUser((user) => [...currUsr, userData]);
+          const nextUser = [...currUsr, userData];
+          setUser(nextUser);
         } catch (e) {
           console.log('Loading problem', e);
           setUser((user) => null);
@@ -71,6 +73,7 @@ const User = () => {
   async function update(form) {
     try {
       delete form.username;
+      debugger;
       const updatedData = await JoblyApi.update(user[1][0], form);
       setUser((user) => (user[2] = updatedData));
       return { success: true };

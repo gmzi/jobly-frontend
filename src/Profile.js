@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
-// TO FIX: user not found upon re-render of component.
-
 const Profile = () => {
-  let user = useContext(UserContext);
+  const history = useHistory();
+  const user = useContext(UserContext);
 
   const profile = user.user;
   const update = user.update;
@@ -13,8 +13,7 @@ const Profile = () => {
   const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    // filter the weird renders in which the context is null
-    if (profile) {
+    if (profile && profile[2]) {
       const initialForm = {
         username: profile[2].username,
         firstName: profile[2].firstName,
@@ -22,9 +21,9 @@ const Profile = () => {
         email: profile[2].email,
         password: '',
       };
-      setInbound((inbound) => initialForm);
+      setInbound(initialForm);
     }
-  }, [setInbound]);
+  }, [profile]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,13 +34,12 @@ const Profile = () => {
   };
 
   async function handleSubmit(e) {
+    console.log('button pressede');
     e.preventDefault();
     const updated = await update(inbound);
-    if (updated.success) {
+    if (updated.success && msg === null) {
       setInbound((inbound) => inbound);
       setMsg("It's updated!");
-    } else {
-      setMsg(updated.error);
     }
   }
 
@@ -100,7 +98,11 @@ const Profile = () => {
               value={inbound.password}
               onChange={handleChange}
             />
-            <button>Submit changes</button>
+            {msg ? (
+              <button disabled>Submit changes</button>
+            ) : (
+              <button>Submit changes</button>
+            )}
           </form>
           <div>{msg ? <p>{msg}</p> : <p></p>}</div>
         </div>
