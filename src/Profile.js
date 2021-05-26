@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from './UserContext';
 
-// TO FIX: form "logs out" on re-renders.
+// TO FIX: user not found upon re-render of component.
 
 const Profile = () => {
   let user = useContext(UserContext);
