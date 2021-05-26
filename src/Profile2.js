@@ -1,13 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from './UserContext';
 
-// TO FIX: form "logs out" on re-renders.
+// TO FIX: app breakes after user update. Find a way to re-render the component with the
+// updatet user data.
 
 const Profile = () => {
   let user = useContext(UserContext);
 
   const profile = user.user;
   const update = user.update;
+
+  console.log(user);
 
   const [inbound, setInbound] = useState(profile);
 
@@ -23,7 +26,7 @@ const Profile = () => {
       };
       setInbound((inbound) => initialForm);
     }
-  }, [setInbound]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +39,6 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = update(inbound);
-    setInbound((inbound) => inbound);
-    alert('Profile updated!');
   };
 
   return (
@@ -97,9 +98,7 @@ const Profile = () => {
           <button>Submit changes</button>
         </form>
       ) : (
-        <p>
-          <a href="/login">Login before profile</a>
-        </p>
+        <h2>NO</h2>
       )}
     </div>
   );

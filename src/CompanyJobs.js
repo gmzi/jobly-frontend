@@ -30,25 +30,6 @@ const CompanyJobs = () => {
     user.applyFront(jobId, username);
   }
 
-  // const jobsToRender = jobs.map((j) =>
-  //   user.prevApps.includes(j.id) ? (
-  //     <Job
-  //       key={j.id}
-  //       id={j.id}
-  //       job={j}
-  //       applied={true}
-  //       apply={handleApplication}
-  //     />
-  //   ) : (
-  //     <Job
-  //       key={j.id}
-  //       id={j.id}
-  //       job={j}
-  //       applied={false}
-  //       apply={handleApplication}
-  //     />
-  //   )
-  // );
   let jobsToRender = [];
 
   if (user.user) {

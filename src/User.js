@@ -13,6 +13,7 @@ const User = () => {
 
   const userProviderValue = {
     user,
+    setUser,
     update,
     applyFront,
     prevApps,
@@ -64,7 +65,6 @@ const User = () => {
     delete form.username;
     const updatedData = await JoblyApi.update(user[1][0], form);
     setUser((user) => (user[2] = updatedData));
-    // return updatedData;
   }
 
   function logout() {
