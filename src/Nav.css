@@ -1,7 +1,23 @@
 .Nav {
-  background-color: aqua;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
 }
 
-.Nav a {
-  margin: 1rem;
+.navbar-brand {
+  border-right: 1px solid black;
+  padding: 0rem 0.3rem;
+  color: rgb(20, 19, 19);
+}
+
+.nav-link {
+  color: rgb(26, 9, 9);
+}
+
+.nav-link:hover {
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.nav-link.active {
+  color: black;
+  font-weight: bold;
 }

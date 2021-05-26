@@ -8,32 +8,49 @@ const Nav = ({ logout }) => {
   const usr = user.user;
 
   return (
-    <nav className="Nav">
-      <NavLink exact to="/Companies">
-        Companies
-      </NavLink>
-      <NavLink exact to="/Jobs">
-        Jobs
-      </NavLink>
-      {usr ? (
-        <>
-          <NavLink exact to="/Profile">
-            Profile
+    <nav className="Navigation navbar navbar-expand-md">
+      <a className="navbar-brand" href="/">
+        Jobly
+      </a>
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item mr-4">
+          <NavLink className="nav-link" exact to="/Companies">
+            Companies
           </NavLink>
-          <NavLink exact to="/" onClick={logout}>
-            logout <span>{usr[1]}</span>
+        </li>
+        <li className="nav-item mr-4">
+          <NavLink className="nav-link" exact to="/Jobs">
+            Jobs
           </NavLink>
-        </>
-      ) : (
-        <div>
-          <NavLink exact to="/login">
-            Login
-          </NavLink>
-          <NavLink exact to="/signup">
-            Sign Up
-          </NavLink>
-        </div>
-      )}
+        </li>
+        {usr ? (
+          <>
+            <li className="nav-item mr-4">
+              <NavLink className="nav-link" exact to="/Profile">
+                Profile
+              </NavLink>
+            </li>
+            <li className="nav-item mr-4">
+              <NavLink className="nav-link" exact to="/" onClick={logout}>
+                logout <span>{usr[1]}</span>
+              </NavLink>
+            </li>
+          </>
+        ) : (
+          <>
+            <li className="nav-item mr-4">
+              <NavLink className="nav-link" exact to="/login">
+                Login
+              </NavLink>
+            </li>
+            <li className="nav-item mr-4">
+              <NavLink className="nav-link" exact to="/signup">
+                Sign Up
+              </NavLink>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
   );
 };

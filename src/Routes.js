@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Welcome from './Welcome';
 import Home from './Home';
 import Companies from './Companies';
 import Company from './Company';
