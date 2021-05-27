@@ -19,11 +19,15 @@ const Jobs = () => {
     setJobs(retrieved);
   }
 
-  function handleApplication(e) {
-    const jobId = e.target.id;
-    const username = user.user[2].username;
-    user.applyFront(jobId, username);
-    return;
+  async function handleApplication(e) {
+    if (user.user[2]) {
+      const jobId = e.target.id;
+      const username = user.user[2].username;
+      const applied = await user.applyFront(jobId, username);
+      if (!applied.success) {
+        alert('please try again');
+      }
+    }
   }
 
   let jobsToRender = [];
