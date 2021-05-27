@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { UserContext } from './UserContext';
-
+import React from 'react';
 import './Job.css';
 
 const Job = ({ id, job, applied, apply, hasBtn }) => {
@@ -10,16 +8,25 @@ const Job = ({ id, job, applied, apply, hasBtn }) => {
   }
 
   return (
-    <div className="Job">
-      <div>
-        <h1>{job.title}</h1>
-        <h2>{job.companyHandle}</h2>
-        <h4>Salary: {job.salary}</h4>
-        <h4>Equity: {job.equity}</h4>
+    <div className="Job card">
+      <div className="card-body">
+        <h5 className="card-title">{job.title}</h5>
+        <p></p>
+        <div>
+          <small>Salary: {job.salary}</small>
+        </div>
+        <div>
+          <small>Equity: {job.equity}</small>
+        </div>
       </div>
       {hasBtn ? (
         <div>
-          <button id={id} onClick={handleApply} disabled={applied}>
+          <button
+            className="btn btn-danger text-uppercase"
+            id={id}
+            onClick={handleApply}
+            disabled={applied}
+          >
             {applied ? 'Applied' : 'Apply'}
           </button>
         </div>

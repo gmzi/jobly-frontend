@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import JoblyApi from './apiHelper';
 import Company from './Company';
 import SearchForm from './SearchForm';
 import './Companies.css';
-import { UserContext } from './UserContext';
 
 const Companies = () => {
   const [comps, setComps] = useState([]);
-
-  const user = useContext(UserContext);
 
   useEffect(() => {
     loadCompanies();
@@ -25,7 +22,8 @@ const Companies = () => {
 
   return (
     <div className="Companies col-md-8 offset-md-2">
-        <SearchForm load={loadCompanies} />
+      <SearchForm load={loadCompanies} />
+      <h1>Companies</h1>
       <div className="Companies-cardsContainer">
         {compsToRender.length ? (
           <div>{compsToRender.map((c) => c)}</div>

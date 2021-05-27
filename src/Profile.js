@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import Alert from './Alert';
+import './Profile.css';
 
 const Profile = () => {
-  const history = useHistory();
   const user = useContext(UserContext);
 
   const profile = user.user;
   const update = user.update;
 
   const [inbound, setInbound] = useState(profile);
-  const [msg, setMsg] = useState(null);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     if (profile && profile[2]) {
@@ -34,82 +34,113 @@ const Profile = () => {
   };
 
   async function handleSubmit(e) {
-    console.log('button pressede');
     e.preventDefault();
     const updated = await update(inbound);
-    if (updated.success && msg === null) {
+    if (updated.success && alert === null) {
       setInbound((inbound) => inbound);
-      setMsg("It's updated!");
+      setAlert({ type: 'success', message: ["It's updated!"] });
+      return;
+    } else {
+      setAlert({ type: 'danger', message: updated.error });
+      return;
     }
   }
 
   return (
-    <div>
-      <h1>Update profile</h1>
+    <div className="Profile col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+      <h1>Profile</h1>
       {inbound ? (
-        <div>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              placeholder={inbound.username}
-              value={inbound.username}
-              readOnly
-            />
+        <div className="Profile card">
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  className="form-control"
+                  id="username"
+                  type="text"
+                  name="username"
+                  placeholder={inbound.username}
+                  value={inbound.username}
+                  readOnly
+                />
+              </div>
 
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              placeholder={inbound.firstName}
-              name="firstName"
-              id="firstName"
-              value={inbound.firstName}
-              onChange={handleChange}
-            />
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder={inbound.firstName}
+                  name="firstName"
+                  id="firstName"
+                  value={inbound.firstName}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              placeholder={inbound.lastName}
-              name="lastName"
-              id="lastName"
-              value={inbound.lastName}
-              onChange={handleChange}
-            />
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder={inbound.lastName}
+                  name="lastName"
+                  id="lastName"
+                  value={inbound.lastName}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              placeholder={inbound.email}
-              name="email"
-              id="email"
-              value={inbound.email}
-              onChange={handleChange}
-            />
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  className="form-control"
+                  type="email"
+                  placeholder={inbound.email}
+                  name="email"
+                  id="email"
+                  value={inbound.email}
+                  onChange={handleChange}
+                />
+              </div>
 
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              placeholder="password"
-              name="password"
-              id="password"
-              value={inbound.password}
-              onChange={handleChange}
-            />
-            {msg ? (
-              <button disabled>Submit changes</button>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  className="form-control"
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  id="password"
+                  value={inbound.password}
+                  onChange={handleChange}
+                />
+              </div>
+              {alert ? (
+                <button className="btn btn-primary btn-block mt-4" disabled>
+                  Submit changes
+                </button>
+              ) : (
+                <button className="btn btn-primary btn-block mt-4">
+                  Submit changes
+                </button>
+              )}
+            </form>
+            {/* {msg ? <p>{msg}</p> : <p></p>} */}
+            {alert ? (
+              <Alert type={alert.type} message={alert.message} />
             ) : (
-              <button>Submit changes</button>
+              <p></p>
             )}
-          </form>
-          <div>{msg ? <p>{msg}</p> : <p></p>}</div>
+          </div>
         </div>
       ) : (
-        <p>
-          <a href="/login">Login before profile</a>
-        </p>
+        <div>
+          <p>
+            <a href="/login">Login to see your profile</a>
+          </p>
+        </div>
       )}
     </div>
   );

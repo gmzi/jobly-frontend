@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Companies from './Companies';
-import Company from './Company';
 import CompanyJobs from './CompanyJobs';
 import Jobs from './Jobs';
 import LoginForm from './LoginForm';
 import SignupForm from './SignUpForm';
 import Profile from './Profile';
 import NotFound from './NotFound';
-import { UserContext } from './UserContext';
-import { ApplicationsContext } from './ApplicationsContext';
-import User from './User';
 
 const Routes = ({ signUp, login }) => {
   return (

@@ -4,16 +4,14 @@ import { useParams } from 'react-router-dom';
 import Job from './Job';
 import JoblyApi from './apiHelper';
 
-// TODO: fix the multi-rendering situation, and correct buttons update
-
 const CompanyJobs = () => {
   const { handle } = useParams();
 
   const user = useContext(UserContext);
 
-  const [userName, setUserName] = useState(null);
-
   const [jobs, setJobs] = useState([]);
+
+  const [company, setCompany] = useState(null);
 
   useEffect(() => {
     getJobs(handle);
@@ -22,6 +20,7 @@ const CompanyJobs = () => {
   async function getJobs(handle) {
     const req = await JoblyApi.getCompany(handle);
     setJobs((jobs) => req.jobs);
+    setCompany({ name: req.name, description: req.description });
   }
 
   function handleApplication(e) {
@@ -35,6 +34,7 @@ const CompanyJobs = () => {
   if (user.user) {
     jobsToRender = jobs.map((j) =>
       user.prevApps.includes(j.id) ? (
+        // <div className="CompanyJobs-list">
         <Job
           key={j.id}
           id={j.id}
@@ -44,6 +44,8 @@ const CompanyJobs = () => {
           hasBtn={true}
         />
       ) : (
+        // </div>
+        // <div className="CompanyJobs-list">
         <Job
           key={j.id}
           id={j.id}
@@ -52,10 +54,12 @@ const CompanyJobs = () => {
           apply={handleApplication}
           hasBtn={true}
         />
+        // </div>
       )
     );
   } else {
     jobsToRender = jobs.map((j) => (
+      // <div className="CompanyJobs-list">
       <Job
         key={j.id}
         id={j.id}
@@ -64,12 +68,20 @@ const CompanyJobs = () => {
         apply={handleApplication}
         hasBtn={false}
       />
+      // </div>
     ));
   }
 
   return (
-    <div>
-      <h1>Jobs at {handle} </h1>
+    <div className="CompanyJobs col-md-8 offset-md-2">
+      {company ? (
+        <>
+          <h4>{company.name}</h4>
+          <p>{company.description}</p>
+        </>
+      ) : (
+        <p></p>
+      )}
       {jobsToRender.length ? (
         jobsToRender.map((j) => j)
       ) : (

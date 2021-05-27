@@ -19,10 +19,27 @@ const User = () => {
     setPrevApps,
   };
 
-  useEffect(
-    async function () {
-      console.log(token);
+  // useEffect(
+  //   async function () {
+  //     const local = window.localStorage.getItem('currUser');
+  //     const currUsr = JSON.parse(local);
+  //     if (currUsr) {
+  //       try {
+  //         const userData = await JoblyApi.getUser(currUsr[1], currUsr[0]);
+  //         setPrevApps((prevApps) => userData.applications);
+  //         const nextUser = [...currUsr, userData];
+  //         setUser(nextUser);
+  //       } catch (e) {
+  //         console.log('Loading problem', e);
+  //         setUser((user) => null);
+  //       }
+  //     }
+  //   },
+  //   [token]
+  // );
 
+  useEffect(() => {
+    async function fillData() {
       const local = window.localStorage.getItem('currUser');
       const currUsr = JSON.parse(local);
       if (currUsr) {
@@ -36,9 +53,9 @@ const User = () => {
           setUser((user) => null);
         }
       }
-    },
-    [token]
-  );
+    }
+    fillData();
+  }, [token]);
 
   function updateLocalStorage(obj) {
     window.localStorage.setItem('currUser', JSON.stringify(obj));
@@ -73,7 +90,6 @@ const User = () => {
   async function update(form) {
     try {
       delete form.username;
-      debugger;
       const updatedData = await JoblyApi.update(user[1][0], form);
       setUser((user) => (user[2] = updatedData));
       return { success: true };
