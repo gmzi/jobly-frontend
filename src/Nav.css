@@ -1,5 +1,6 @@
 .Nav {
-margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid black;
 }
 
 .navbar-brand {
@@ -14,7 +15,7 @@ margin-bottom: 1rem;
 
 .nav-link:hover {
   color: black;
-  border-bottom: 1px solid black;
+  border: 1px solid black;
 }
 
 .nav-link.active {
