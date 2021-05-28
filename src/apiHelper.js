@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
-const BASE_URL =
-  'postgres://spvixyrveifflr:ecc916012223b85c26ba72c3b9b3442c6f98ced36ff327f55155b7f98c120d33@ec2-184-73-198-174.compute-1.amazonaws.com:5432/d1r34o1japnlgm';
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3001';
 
 /** API Class.
  *
