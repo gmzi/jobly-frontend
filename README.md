@@ -1,6 +1,6 @@
 This is the React frontend for Jobly, version 1.
 
-Live demo: https://jobly-five.vercel.app/Companies
+Live demo: https://jobly-five.vercel.app
 
 TODOS:
 
