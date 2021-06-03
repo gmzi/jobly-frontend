@@ -13,6 +13,9 @@ const Job = ({ id, job, applied, apply, hasBtn }) => {
         <h5 className="card-title">{job.title}</h5>
         <p></p>
         <div>
+          <small>Company: {job.companyHandle}</small>
+        </div>
+        <div>
           <small>Salary: {job.salary}</small>
         </div>
         <div>
