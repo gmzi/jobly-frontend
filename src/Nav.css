@@ -11,6 +11,7 @@
 
 .nav-link {
   color: rgb(26, 9, 9);
+  border: 1px solid rgba(0, 0, 0, 0);
 }
 
 .nav-link:hover {
