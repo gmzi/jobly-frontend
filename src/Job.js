@@ -6,15 +6,21 @@ const Job = ({ id, job, applied, apply, hasBtn }) => {
     apply(e);
     e.target.disabled = true;
   }
-
+  console.log(job.companyHande);
   return (
     <div className="Job card">
       <div className="card-body">
         <h5 className="card-title">{job.title}</h5>
         <p></p>
+
         <div>
-          <small>Company: {job.companyHandle}</small>
+          {job.companyHandle ? (
+            <small>Company: {job.companyHandle}</small>
+          ) : (
+            <small></small>
+          )}
         </div>
+
         <div>
           <small>Salary: {job.salary}</small>
         </div>
