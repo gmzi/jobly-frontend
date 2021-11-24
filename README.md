@@ -1,8 +1,8 @@
-This is the React frontend for Jobly, version 1.
+Exercise on registration, authentication and database management.
 
 Live demo: https://jobly-five.vercel.app
 
 TODOS:
 
-[] - Job.js: useHistory to redirect user to the targeted job after login
-[] - Filter search with more search terms (provided by the backend)
+- [ ]  Job.js: useHistory to redirect user to the targeted job after login
+- [ ] Filter search with more search terms (provided by the backend)
